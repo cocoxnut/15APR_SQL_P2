@@ -1,0 +1,82 @@
+{\rtf1\ansi\ansicpg1251\cocoartf2638
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 test=# CREATE DATABASE department;\
+CREATE DATABASE\
+test=# \\c department\
+You are now connected to database "department" as user "yrysova".\
+department=# CREATE TABLE developers(id SERIAL PRIMARY KEY, name VARCHAR(100), skill VARCHAR(100), programming_lang VARCHAR(150) DEFAULT 'HTML');\
+CREATE TABLE\
+department=# UPDATE developers SET skill = age;\
+ERROR:  column "age" does not exist\
+LINE 1: UPDATE developers SET skill = age;\
+                                      ^\
+department=# ALTER TABLE developers ADD COLUMN age INTEGER;\
+ALTER TABLE\
+department=# ALTER TABLE developers DROP COLUMN skill;\
+ALTER TABLE\
+department=# SELECT * from developers;\
+ id | name | programming_lang | age \
+----+------+------------------+-----\
+(0 rows)\
+\
+department=# INSERT INTO developers(name, age, programming_lang) VALUES('Bakyt', 23, 'Python');\
+INSERT 0 1\
+department=# INSERT INTO developers(name, age, programming_lang) VALUES('Beka', 15, 'Java');\
+INSERT 0 1\
+department=# INSERT INTO developers(name, age, programming_lang) VALUES('Gulya', 30, 'Javascript');\
+INSERT 0 1\
+department=# INSERT INTO developers(name, age, programming_lang) VALUES('Beka', 39, 'Assembler');\
+INSERT 0 1\
+department=# SELECT * from developers;\
+ id | name  | programming_lang | age \
+----+-------+------------------+-----\
+  1 | Bakyt | Python           |  23\
+  2 | Beka  | Java             |  15\
+  3 | Gulya | Javascript       |  30\
+  4 | Beka  | Assembler        |  39\
+(4 rows)\
+\
+department=# ALTER TABLE developers ADD COLUMN cash;\
+ERROR:  syntax error at or near ";"\
+LINE 1: ALTER TABLE developers ADD COLUMN cash;\
+                                              ^\
+department=# ALTER TABLE developers ADD COLUMN cash INTEGER;\
+ALTER TABLE\
+department=# INSERT INTO developers(name, age, programming_lang, cash) VALUES('Katya', 16, 'Python', 3000);\
+INSERT 0 1\
+department=# UPDATE developers SET age = 27 WHERE age > 25;\
+UPDATE 2\
+department=# SELECT * from developers\
+department-# SELECT * from developers;\
+ERROR:  syntax error at or near "SELECT"\
+LINE 2: SELECT * from developers;\
+        ^\
+department=# \
+department=# SELECT * from developers;\
+ id | name  | programming_lang | age | cash \
+----+-------+------------------+-----+------\
+  1 | Bakyt | Python           |  23 |     \
+  2 | Beka  | Java             |  15 |     \
+  5 | Katya | Python           |  16 | 3000\
+  3 | Gulya | Javascript       |  27 |     \
+  4 | Beka  | Assembler        |  27 |     \
+(5 rows)\
+\
+department=# COMMENT ON COLUMN developers.name is 'User name';\
+COMMENT\
+department=# UPDATE developers SET name = 'Ekaterina' WHERE name = 'Katya';\
+UPDATE 1\
+department=# SELECT * from developers;\
+ id |   name    | programming_lang | age | cash \
+----+-----------+------------------+-----+------\
+  1 | Bakyt     | Python           |  23 |     \
+  2 | Beka      | Java             |  15 |     \
+  3 | Gulya     | Javascript       |  27 |     \
+  4 | Beka      | Assembler        |  27 |     \
+  5 | Ekaterina | Python           |  16 | 3000\
+(5 rows)}
